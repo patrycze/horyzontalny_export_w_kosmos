@@ -84,6 +84,15 @@
     <ClInclude Include="CollisionDetection.h">
       <Filter>Header Files\Utilities\CollisionDetection</Filter>
     </ClInclude>
+    <ClInclude Include="vec2.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -119,6 +128,9 @@
     <ClCompile Include="CollisionPolygon.cpp">
       <Filter>Source Files\Utilities\CollisionDetection</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Grass.bmp">
@@ -130,5 +142,10 @@
     <None Include="Resources\Box.bmp">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GKiW_Lab6.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

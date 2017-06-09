@@ -1,15 +1,15 @@
 #include "stdafx.h"
+#include "Cube.h"
 
 #pragma region Zmienne globalne
 
 	int mouseX = 0;
 	int mouseY = 0;
-
 	bool captureMouse = true;
 	bool free3DMovement = false;
 
 	float mouseSensitivity = .15f;
-
+	Cube *c;
 	CScene * Scene;
 
 	bool keystate[255];
@@ -58,6 +58,9 @@ int main(int argc, char* argv[])
 	// Inicjalizacja sceny.
 	Scene = new CScene();
 	Scene->Initialize();
+	
+	vec3 pozycja(3,	1, 0);
+	c = new Cube(pozycja,0.25f);
 
 	glutMainLoop();
 
@@ -125,12 +128,13 @@ void OnRender() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
+	
 	// Rysowanie w³aœciwej sceny przenieœliœmy do obiektu klasy CScene
 	// (lub dziedzicz¹cej po niej, gdy scen bêdzie kilka):
 	Scene->Render();
-
+	c->Render();
 	glutSwapBuffers();
+	
 	glFlush();
 	glutPostRedisplay();
 

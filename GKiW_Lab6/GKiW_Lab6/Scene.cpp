@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include "vec2.h"
 
 // Konstruktor.
 CScene::CScene(void)
@@ -35,7 +36,7 @@ void CScene::Initialize(void) {
 		glFogf(GL_FOG_START, 2.0f);
 		glFogf(GL_FOG_END, 18.0f);
 
-		Player.pos.x = 0.5f;
+		Player.pos.x = 0.8f;
 		Player.pos.y = 0.1f;
 		Player.pos.z = 0.5f;
 
@@ -89,175 +90,175 @@ void CScene::Initialize(void) {
 // Aktualizacja œwiata gry.
 void CScene::Update(void) {
 
-	#pragma region Ruch kamery
-	/*
-		if (captureMouse) {
-			Player.velRY = -mouseSensitivity * (glutGet(GLUT_WINDOW_WIDTH) / 2 - mouseX);
-			Player.velRX = mouseSensitivity * (glutGet(GLUT_WINDOW_HEIGHT) / 2 - mouseY);
-			glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH) / 2, glutGet(GLUT_WINDOW_HEIGHT) / 2);
-		}
-	*/
-		if (keystate['w']) {
-			Player.velM = Player.speed;
-		}
-		if (keystate['s']) {
-			Player.velM = -Player.speed;
-		}
-		if (keystate['a']) {
-			Player.velS = -Player.speed;
-		}
-		if (keystate['d']) {
-			Player.velS = Player.speed;
-		}
-		if (keystate['q']) {
-			Player.velRY = -Player.speed;
-		}
-		if (keystate['e']) {
-			Player.velRY = Player.speed;
-		}
-		if (keystate['f']) {
-			Player.velRX = -Player.speed;
-		}
-		if (keystate['c']) {
-			Player.velRX = Player.speed;
-		}
+#pragma region Ruch kamery
 
-		float T = acos(Player.dir.y);
-		float G = atan2(Player.dir.z, Player.dir.x);
-		T -= Player.velRX * .03f;
-		G += Player.velRY * .03f;
-		Player.dir.x = sin(T) * cos(G);
-		Player.dir.y = cos(T);
-		Player.dir.z = sin(T) * sin(G);
+	if (captureMouse) {
+		Player.velRY = -mouseSensitivity * (glutGet(GLUT_WINDOW_WIDTH) / 2 - mouseX);
+		Player.velRX = mouseSensitivity * (glutGet(GLUT_WINDOW_HEIGHT) / 2 - mouseY);
+		glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH) / 2, glutGet(GLUT_WINDOW_HEIGHT) / 2);
+	}
 
-		vec3 per;
-		per.x = -Player.dir.z;
-		per.y = 0;
-		per.z = Player.dir.x;
+	if (keystate['w']) {
+		Player.velM = Player.speed;
+	}
+	if (keystate['s']) {
+		Player.velM = -Player.speed;
+	}
+	if (keystate['a']) {
+		Player.velS = -Player.speed;
+	}
+	if (keystate['d']) {
+		Player.velS = Player.speed;
+	}
+	if (keystate['q']) {
+		Player.velRY = -Player.speed;
+	}
+	if (keystate['e']) {
+		Player.velRY = Player.speed;
+	}
+	if (keystate['f']) {
+		Player.velRX = -Player.speed;
+	}
+	if (keystate['c']) {
+		Player.velRX = Player.speed;
+	}
 
-		vec3 nextPlayerPos = Player.pos;
+	float T = acos(Player.dir.y);
+	float G = atan2(Player.dir.z, Player.dir.x);
+	T -= Player.velRX * .03f;
+	G += Player.velRY * .03f;
+	Player.dir.x = sin(T) * cos(G);
+	Player.dir.y = cos(T);
+	Player.dir.z = sin(T) * sin(G);
 
-		nextPlayerPos.x += Player.dir.x * Player.velM * .1f;
-		if (free3DMovement) {
-			nextPlayerPos.y += Player.dir.y * Player.velM * .1f;
-		}
-		else {
-			// Niby-grawitacja
-			nextPlayerPos.y -= .1f;
-		}
-		nextPlayerPos.z += Player.dir.z * Player.velM * .1f;
+	vec3 per;
+	per.x = -Player.dir.z;
+	per.y = 0;
+	per.z = Player.dir.x;
 
-		nextPlayerPos.x += per.x * Player.velS * .1f;
-		if (free3DMovement) {
-			nextPlayerPos.y += Player.dir.y * Player.velM * .1f;
-		}
-		nextPlayerPos.z += per.z * Player.velS * .1f;
-		
-		// Uniemo¿liwiamy zejœcie gracza poni¿ej poziomu terenu
-		nextPlayerPos.y = __max(0.3f, nextPlayerPos.y);
+	vec3 nextPlayerPos = Player.pos;
 
-		// Zmieniamy pozycjê gracza o wyliczony wczeœniej wektor przemieszczenia, uwzglêdniaj¹c przy tym kolizje ze œwiatem
-		// "Objects" powinno byæ wektorem tylko tych obiektów, z którymi chcemy sprawdziæ kolizjê. Dobrze by³oby
-		// wprowadziæ wczeœniejsz¹ fazê detekcji kolizji w oparciu np. o AABB i zawêziæ liczbê elementów Objects.
-		Player.pos = CCollisionDetection::GetPositionAfterWorldCollisions(Player.pos, nextPlayerPos, Player, Objects);
+	nextPlayerPos.x += Player.dir.x * Player.velM * .1f;
+	if (free3DMovement) {
+		nextPlayerPos.y += Player.dir.y * Player.velM * .1f;
+	}
+	else {
+		// Niby-grawitacja
+		nextPlayerPos.y -= .1f;
+	}
+	nextPlayerPos.z += Player.dir.z * Player.velM * .1f;
 
-		Player.velRX /= 1.2;
-		Player.velRY /= 1.2;
-		Player.velM /= 1.2;
-		Player.velS /= 1.2;
+	nextPlayerPos.x += per.x * Player.velS * .1f;
+	if (free3DMovement) {
+		nextPlayerPos.y += Player.dir.y * Player.velM * .1f;
+	}
+	nextPlayerPos.z += per.z * Player.velS * .1f;
 
-	#pragma endregion
+	// Uniemo¿liwiamy zejœcie gracza poni¿ej poziomu terenu
+	nextPlayerPos.y = __max(0.3f, nextPlayerPos.y);
 
-	#pragma region Aktualizacja obiektow sceny
+	// Zmieniamy pozycjê gracza o wyliczony wczeœniej wektor przemieszczenia, uwzglêdniaj¹c przy tym kolizje ze œwiatem
+	// "Objects" powinno byæ wektorem tylko tych obiektów, z którymi chcemy sprawdziæ kolizjê. Dobrze by³oby
+	// wprowadziæ wczeœniejsz¹ fazê detekcji kolizji w oparciu np. o AABB i zawêziæ liczbê elementów Objects.
+	Player.pos = CCollisionDetection::GetPositionAfterWorldCollisions(Player.pos, nextPlayerPos, Player, Objects);
 
-		// Ró¿ne obiekty mog¹ potrzebowaæ aktualizacji - np. poruszaj¹cy siê wrogowie.
-		for (int i = 0; i < Objects->size(); ++i) {
-			Objects->at(i)->Update();
-		}
+	Player.velRX /= 1.2;
+	Player.velRY /= 1.2;
+	Player.velM /= 1.2;
+	Player.velS /= 1.2;
 
-		Terrain->Update();
-		Skydome->Update();
+#pragma endregion
 
-	#pragma endregion
+#pragma region Aktualizacja obiektow sceny
+
+	// Ró¿ne obiekty mog¹ potrzebowaæ aktualizacji - np. poruszaj¹cy siê wrogowie.
+	for (int i = 0; i < Objects->size(); ++i) {
+		Objects->at(i)->Update();
+	}
+
+	Terrain->Update();
+	Skydome->Update();
+
+#pragma endregion
 
 }
 
 // Narysowanie sceny.
 void CScene::Render(void) {
 
-	#pragma region Kamera
+#pragma region Kamera
 
-		gluLookAt(
-			Player.pos.x + Player.cam.x, Player.pos.y + Player.cam.y, Player.pos.z + Player.cam.z,
-			Player.pos.x + Player.cam.x + Player.dir.x, Player.pos.y + Player.cam.y + Player.dir.y, Player.pos.z + Player.cam.z + Player.dir.z,
-			0.0f, 1.0f, 0.0f
-		);
+	gluLookAt(
+		Player.pos.x + Player.cam.x, Player.pos.y + Player.cam.y, Player.pos.z + Player.cam.z,
+		Player.pos.x + Player.cam.x + Player.dir.x, Player.pos.y + Player.cam.y + Player.dir.y, Player.pos.z + Player.cam.z + Player.dir.z,
+		0.0f, 1.0f, 0.0f
+	);
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Swiatlo
-	
-		float l0_amb[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-		float l0_dif[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		float l0_spe[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		float l0_pos[] = { -1.0f, .2f, 0.5f, 0.0f };
-		glLightfv(GL_LIGHT0, GL_AMBIENT, l0_amb);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, l0_dif);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, l0_spe);
-		glLightfv(GL_LIGHT0, GL_POSITION, l0_pos);
+#pragma region Swiatlo
 
-	#pragma endregion
+	float l0_amb[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float l0_dif[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float l0_spe[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	float l0_pos[] = { -1.0f, .2f, 0.5f, 0.0f };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, l0_amb);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, l0_dif);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, l0_spe);
+	glLightfv(GL_LIGHT0, GL_POSITION, l0_pos);
 
-	#pragma region Skydome
+#pragma endregion
 
-		glDisable(GL_FOG); // Nie chcemy, by nasz zawsze odleg³y skydome by³ za mg³¹, bo nie by³oby go widaæ.
+#pragma region Skydome
 
-		Skydome->Position = Player.pos;
-		Skydome->Render();
-		
-		glEnable(GL_FOG);
+	glDisable(GL_FOG); // Nie chcemy, by nasz zawsze odleg³y skydome by³ za mg³¹, bo nie by³oby go widaæ.
 
-	#pragma endregion
+	Skydome->Position = Player.pos;
+	Skydome->Render();
 
-	#pragma region Teren
+	glEnable(GL_FOG);
 
-		Terrain->Render();
+#pragma endregion
 
-	#pragma endregion
+#pragma region Teren
 
-	#pragma region Obiekty
+	Terrain->Render();
 
-		// Narysowanie wszystkich obiektów sceny (w tym przypadku - tylko œcian, ale do Objects mo¿na dodaæ te¿ wszystkie inne obiekty).
-		for (int i = 0; i < Objects->size(); ++i) {
-			Objects->at(i)->Render();
+#pragma endregion
+
+#pragma region Obiekty
+
+	// Narysowanie wszystkich obiektów sceny (w tym przypadku - tylko œcian, ale do Objects mo¿na dodaæ te¿ wszystkie inne obiekty).
+	for (int i = 0; i < Objects->size(); ++i) {
+		Objects->at(i)->Render();
+	}
+
+#pragma endregion
+
+#pragma region Pomocnicze rysowanie kolizji
+	// Narysowanie elipsoidy gracza oraz znalezionego punktu kolizji jeœli u¿ytkownik sobie tego ¿yczy (klawisz "K").
+	if (DrawCollisions) {
+		glDisable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+		glLineWidth(1.0f);
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glPushMatrix();
+		glTranslatef(Player.pos.x, Player.pos.y, Player.pos.z);
+		glScalef(Player.collisionEllipsoid->r.x, Player.collisionEllipsoid->r.y, Player.collisionEllipsoid->r.z);
+		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+		glutWireSphere(1.0f, 64, 64);
+		glPopMatrix();
+		if (MarkCollision) {
+			glColor3f(1.0f, 0.0f, 1.0f);
+			glPointSize(16.0f);
+			glDisable(GL_DEPTH_TEST);
+			glBegin(GL_POINTS);
+			glVertex3f(LastCollisionPoint.x, LastCollisionPoint.y, LastCollisionPoint.z);
+			glEnd();
+			glEnable(GL_DEPTH_TEST);
 		}
-
-	#pragma endregion
-
-	#pragma region Pomocnicze rysowanie kolizji
-		// Narysowanie elipsoidy gracza oraz znalezionego punktu kolizji jeœli u¿ytkownik sobie tego ¿yczy (klawisz "K").
-		if (DrawCollisions) {
-			glDisable(GL_LIGHTING);
-			glDisable(GL_TEXTURE_2D);
-			glLineWidth(1.0f);
-			glColor3f(0.0f, 1.0f, 0.0f);
-			glPushMatrix();
-				glTranslatef(Player.pos.x, Player.pos.y, Player.pos.z);
-				glScalef(Player.collisionEllipsoid->r.x, Player.collisionEllipsoid->r.y, Player.collisionEllipsoid->r.z);
-				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-				glutWireSphere(1.0f, 64, 64);
-			glPopMatrix();
-			if (MarkCollision) {
-				glColor3f(1.0f, 0.0f, 1.0f);
-				glPointSize(16.0f);
-				glDisable(GL_DEPTH_TEST);
-				glBegin(GL_POINTS);
-					glVertex3f(LastCollisionPoint.x, LastCollisionPoint.y, LastCollisionPoint.z);
-				glEnd();
-				glEnable(GL_DEPTH_TEST);
-			}
-			glEnable(GL_LIGHTING);
-		}
-	#pragma endregion
+		glEnable(GL_LIGHTING);
+	}
+#pragma endregion
 
 }

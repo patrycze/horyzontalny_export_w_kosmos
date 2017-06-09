@@ -91,8 +91,10 @@ xcopy "$(ProjectDir)Resources\*.bmp" "$(TargetDir)Resources" /I /Y</Command>
     <ClInclude Include="CollisionEllipsoid.h" />
     <ClInclude Include="CollisionPlane.h" />
     <ClInclude Include="CollisionPolygon.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="GKiW_Lab6.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Skydome.h" />
@@ -100,6 +102,7 @@ xcopy "$(ProjectDir)Resources\*.bmp" "$(TargetDir)Resources" /I /Y</Command>
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
@@ -107,6 +110,7 @@ xcopy "$(ProjectDir)Resources\*.bmp" "$(TargetDir)Resources" /I /Y</Command>
     <ClCompile Include="..\3rd_party\bitmap\Bitmap.cpp" />
     <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="CollisionPolygon.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GKiW_Lab6.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
@@ -129,6 +133,9 @@ xcopy "$(ProjectDir)Resources\*.bmp" "$(TargetDir)Resources" /I /Y</Command>
     <None Include="Resources\Skydome.bmp">
       <DeploymentContent>true</DeploymentContent>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GKiW_Lab6.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
