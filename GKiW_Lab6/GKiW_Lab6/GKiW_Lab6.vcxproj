@@ -92,6 +92,7 @@ xcopy "$(ProjectDir)Resources\*.bmp" "$(TargetDir)Resources" /I /Y</Command>
     <ClInclude Include="CollisionPlane.h" />
     <ClInclude Include="CollisionPolygon.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="GKiW_Lab6.h" />
     <ClInclude Include="resource.h" />
@@ -112,6 +113,7 @@ xcopy "$(ProjectDir)Resources\*.bmp" "$(TargetDir)Resources" /I /Y</Command>
     <ClCompile Include="CollisionPolygon.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="GKiW_Lab6.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Skydome.cpp" />

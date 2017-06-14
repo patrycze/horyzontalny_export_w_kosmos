@@ -7,8 +7,7 @@ Cube::Cube(vec3 pos, float size)
 	this->pos = pos;
 	this->size = size;
 	//type = TYPE_CUBE;
-
-	//textureID = Textures::GetTexture("sciana");
+//	textureID = Textures::GetTexture("sciana");
 }
 
 

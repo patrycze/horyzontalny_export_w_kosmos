@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Cube.h"
+#include "Model.h"
 
 #pragma region Zmienne globalne
 
@@ -11,6 +12,7 @@
 	float mouseSensitivity = .15f;
 	Cube *c;
 	CScene * Scene;
+	Model *kluczyk;
 
 	bool keystate[255];
 
@@ -59,9 +61,10 @@ int main(int argc, char* argv[])
 	Scene = new CScene();
 	Scene->Initialize();
 	
-	vec3 pozycja(3,	1, 0);
+	vec3 pozycja(1,	1, 0);
 	c = new Cube(pozycja,0.25f);
 
+	kluczyk = new Model();
 	glutMainLoop();
 
 	return 0;
@@ -132,6 +135,7 @@ void OnRender() {
 	// Rysowanie w³aœciwej sceny przenieœliœmy do obiektu klasy CScene
 	// (lub dziedzicz¹cej po niej, gdy scen bêdzie kilka):
 	Scene->Render();
+	kluczyk->Render();
 	c->Render();
 	glutSwapBuffers();
 	

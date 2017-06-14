@@ -65,7 +65,7 @@ void CScene::Initialize(void) {
 
 		// Definicje po³o¿enia naszych œcian. Ka¿da kolejna czwórka wektorów to jeden quad.
 		vec3 walls[][4] = {
-			{ vec3(10.0f,  0.0f, 0.0f), vec3(10.0f,  1.0f, 0.0f), vec3(0.0f,  1.0f, 0.0f), vec3(0.0f,  0.0f, 0.0f) },
+			{ vec3(10.0f,  0.0f, 0.0f), vec3(10.0f,  2.0f, 0.0f), vec3(0.0f,  2.0f, 0.0f), vec3(0.0f,  0.0f, 0.0f) },
 			//{ vec3(2.0f, 0.0f, 0.0f), vec3(2.0f, 1.0f, 0.0f), vec3(1.0f, 1.0f, 0.0f), vec3(1.0f, 0.0f, 0.0f) },
 		//	{ vec3(3.0f, 0.0f, 0.0f), vec3(3.0f, 1.0f, 0.0f), vec3(2.0f, 1.0f, 0.0f), vec3(2.0f, 0.0f, 0.0f) }
 		
@@ -97,7 +97,9 @@ void CScene::Update(void) {
 		Player.velRX = mouseSensitivity * (glutGet(GLUT_WINDOW_HEIGHT) / 2 - mouseY);
 		glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH) / 2, glutGet(GLUT_WINDOW_HEIGHT) / 2);
 	}
-
+	if (keystate[' ']) {
+		Player.pos.y = Player.pos.y + 0.05;
+	}
 	if (keystate['w']) {
 		Player.velM = Player.speed;
 	}
@@ -144,7 +146,7 @@ void CScene::Update(void) {
 	}
 	else {
 		// Niby-grawitacja
-		nextPlayerPos.y -= .1f;
+		nextPlayerPos.y -= .01f;
 	}
 	nextPlayerPos.z += Player.dir.z * Player.velM * .1f;
 
